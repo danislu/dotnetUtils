@@ -1,8 +1,8 @@
-﻿namespace Dsl.Web.Wcf
+﻿namespace Dsl.Utils.Wcf
 {
     public interface IWebOperationContext
     {
-        IWebOperationContextIncomingReqest IncomingReqest { get; }
+        IWebOperationContextIncomingReqest IncomingRequest { get; }
         IWebOperationContextOutgoingResponse OutgoingResponse { get; }
     }
 }
