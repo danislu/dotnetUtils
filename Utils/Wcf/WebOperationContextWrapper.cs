@@ -1,4 +1,4 @@
-﻿namespace Dsl.Utils.Wcf
+﻿namespace Utils.Wcf
 {
     using System;
     using System.ServiceModel.Web;

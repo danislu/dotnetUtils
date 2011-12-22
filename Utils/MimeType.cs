@@ -1,5 +1,4 @@
-﻿
-namespace Dsl.Utils
+﻿namespace Utils
 {
     public static class MimeTypes
     {

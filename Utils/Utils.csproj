@@ -8,8 +8,8 @@
     <ProjectGuid>{8A710619-E9AC-40D4-B977-367FBBED1777}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Dsl.Utils</RootNamespace>
-    <AssemblyName>Dsl.Utils</AssemblyName>
+    <RootNamespace>Utils</RootNamespace>
+    <AssemblyName>Utils</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

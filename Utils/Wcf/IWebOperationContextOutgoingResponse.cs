@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Net;
-
-namespace Dsl.Utils.Wcf
+﻿namespace Utils.Wcf
 {
+    using System.Collections.Generic;
+    using System.Net;
+
     public interface IWebOperationContextOutgoingResponse
     {
         string ContentType { get; set; }

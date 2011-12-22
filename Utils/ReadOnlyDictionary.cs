@@ -1,4 +1,4 @@
-﻿namespace Dsl.Utils
+﻿namespace Utils
 {
     using System;
     using System.Collections;

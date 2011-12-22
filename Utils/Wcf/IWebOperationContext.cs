@@ -1,4 +1,4 @@
-﻿namespace Dsl.Utils.Wcf
+﻿namespace Utils.Wcf
 {
     public interface IWebOperationContext
     {
