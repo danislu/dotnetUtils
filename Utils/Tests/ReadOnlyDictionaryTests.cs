@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using NUnit.Framework;
 
     [TestFixture]
@@ -30,15 +31,8 @@
             Assert.Throws<NotSupportedException>(() => dict.Clear());
             Assert.Throws<NotSupportedException>(() => dict["key1"] = "something");
 
-            Assert.IsTrue(dict.Keys.IsReadOnly);
-            Assert.Throws<NotSupportedException>(() => dict.Keys.Add("something"));
-            Assert.Throws<NotSupportedException>(() => dict.Keys.Remove("something"));
-            Assert.Throws<NotSupportedException>(() => dict.Keys.Clear());
-
-            Assert.IsTrue(dict.Values.IsReadOnly);
-            Assert.Throws<NotSupportedException>(() => dict.Values.Add("something"));
-            Assert.Throws<NotSupportedException>(() => dict.Values.Remove("something"));
-            Assert.Throws<NotSupportedException>(() => dict.Values.Clear());
+            Assert.IsInstanceOf<ReadOnlyCollection<string>>(dict.Keys);
+            Assert.IsInstanceOf<ReadOnlyCollection<string>>(dict.Values);
         }
     }
 }
