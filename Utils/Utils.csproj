@@ -51,6 +51,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Wcf\OutgoingWebResponseContextWrapper.cs" />
     <Compile Include="Wcf\WebOperationContextWrapper.cs" />
+    <Compile Include="Wcf\WebOperationContextExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
