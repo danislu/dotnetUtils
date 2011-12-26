@@ -26,7 +26,12 @@
 
         public string Accept
         {
-            get { return this.incomingRequest.Accept; }
+            get { return this.incomingRequest.Accept ?? string.Empty; }
+        }
+
+        public string GetQueryParameter(string key)
+        {
+            return this.incomingRequest.UriTemplateMatch.QueryParameters.Get(key);
         }
 
         public ReadOnlyDictionary<string, string> Headers
