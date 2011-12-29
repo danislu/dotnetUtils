@@ -1,4 +1,4 @@
-﻿namespace Utils.Wcf
+﻿namespace Utils.Web.Wcf
 {
     using System;
     using System.ServiceModel.Web;
@@ -35,6 +35,11 @@
                 return this.outgoingResponse ??
                     (this.outgoingResponse = new OutgoingWebResponseContextWrapper(context.OutgoingResponse));
             }
+        }
+
+        public string GetQueryParam(string key)
+        {
+            return this.IncomingRequest.GetQueryParameter(key);
         }
     }
 }

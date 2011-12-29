@@ -1,4 +1,4 @@
-﻿namespace Utils
+﻿namespace Utils.Web
 {
     /// <summary>
     /// http://www.iana.org/assignments/media-types/index.html

@@ -1,8 +1,10 @@
-﻿namespace Utils.Wcf
+﻿namespace Utils.Web.Wcf
 {
     using System;
     using System.Linq;
     using System.ServiceModel.Web;
+    using Utils.Classes;
+    using Utils.Web;
 
     public class IncomingWebRequestContextWrapper : IWebOperationContextIncomingReqest
     {

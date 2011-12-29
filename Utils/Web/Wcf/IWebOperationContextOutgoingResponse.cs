@@ -1,4 +1,4 @@
-﻿namespace Utils.Wcf
+﻿namespace Utils.Web.Wcf
 {
     using System.Collections.Generic;
     using System.Net;
