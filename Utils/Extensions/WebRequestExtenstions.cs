@@ -1,5 +1,6 @@
 ﻿namespace System.Net
 {
+    using System.Collections.Generic;
     using System.IO;
     using System.Threading.Tasks;
 
@@ -13,6 +14,14 @@
         public static Task<Stream> GetRequestStreamAsync(this WebRequest webRequest)
         {
             return Task.Factory.FromAsync<Stream>(webRequest.BeginGetRequestStream, webRequest.EndGetRequestStream, null);
+        }
+
+        public static void AddHeaders(this WebRequest request, IDictionary<HttpRequestHeader, string> headers)
+        {
+            foreach (var header in headers)
+            {
+                request.Headers.Add(header.Key, header.Value);
+            }
         }
     }
 }
