@@ -18,6 +18,11 @@
 
         public static void AddHeaders(this WebRequest request, IDictionary<HttpRequestHeader, string> headers)
         {
+            if (headers == null)
+            {
+                throw new ArgumentNullException("headers");
+            }
+
             foreach (var header in headers)
             {
                 request.Headers.Add(header.Key, header.Value);

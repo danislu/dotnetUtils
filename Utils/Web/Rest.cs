@@ -16,6 +16,11 @@
             return GetAsync(uri).Result;
         }
 
+        public string GetString(Uri uri)
+        {
+            return GetStringAsync(uri).Result;
+        }
+
         public Stream Post(Uri uri, Stream body)
         {
             return PostAsync(uri, body).Result;
@@ -29,11 +34,6 @@
         public Stream Delete(Uri uri)
         {
             return DeleteAsync(uri).Result;
-        }
-
-        public string GetString(Uri uri)
-        {
-            return GetStringAsync(uri).Result;
         }
 
         public Task<string> GetStringAsync(Uri uri)
@@ -99,7 +99,7 @@
             return PutAsync(uri, body, token, null);
         }
 
-        public Task<Stream> PutAsync(Uri uri, Stream body,  CancellationToken token, IProgress<double> progress)
+        public Task<Stream> PutAsync(Uri uri, Stream body, CancellationToken token, IProgress<double> progress)
         {
             return Request(uri, HttpMethods.Put, body, token, progress);
         }
@@ -126,8 +126,8 @@
             if (RequestHeaders != null)
             {
                 request.AddHeaders(RequestHeaders);
-            } 
-            
+            }
+
             return request;
         }
 
@@ -138,37 +138,46 @@
 
         private Task<Stream> Request(Uri uri, string method, Stream body, CancellationToken token, IProgress<double> progress)
         {
-            if (uri == null) throw new ArgumentNullException("uri");
-            if (string.IsNullOrEmpty(method)) throw new ArgumentNullException("method", "can not be null or empty");
+            if (uri == null)
+            {
+                throw new ArgumentNullException("uri");
+            }
+            if (string.IsNullOrEmpty(method))
+            {
+                throw new ArgumentNullException("method", "can't be null or empty");
+            }
 
             Action<double> reportAndCheckToken = p =>
-                                                     {
-                                                         token.ThrowIfCancellationRequested();
-                                                         if (progress != null)
-                                                         {
-                                                             progress.Report(p);
-                                                         }
-                                                     };
+            {
+                token.ThrowIfCancellationRequested();
+                if (progress != null)
+                {
+                    progress.Report(p);
+                }
+            };
 
             var request = GetWebRequest(uri, method);
             var task = body != null
-                       ? request.GetRequestStreamAsync().ContinueWith(t =>
-                                               {
-                                                   body.CopyTo(t.Result);
-                                                   reportAndCheckToken(0.3);
-                                               }).ContinueWith(_ =>
-                                               {
-                                                   var response = request.GetResponse();
-                                                   reportAndCheckToken(0.6);
-                                                   return response;
-                                               })
+                        ? request.GetRequestStreamAsync()
+                        .ContinueWith(t =>
+                        {
+                            body.CopyTo(t.Result);
+                            reportAndCheckToken(0.3);
+                        })
+                        .ContinueWith(_ =>
+                        {
+                            var response = request.GetResponse();
+                            reportAndCheckToken(0.6);
+                            return response;
+                        })
                        : request.GetResponseAsync();
+
             return task.ContinueWith(t =>
-                                  {
-                                      var stream = t.Result.GetResponseStream();
-                                      reportAndCheckToken(0.9);
-                                      return stream;
-                                  });
+            {
+                var stream = t.Result.GetResponseStream();
+                reportAndCheckToken(0.9);
+                return stream;
+            });
         }
     }
 }

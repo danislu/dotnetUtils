@@ -3,7 +3,6 @@
     using System;
     using System.Linq;
     using System.ServiceModel.Web;
-    using Utils.Classes;
     using Utils.Web;
 
     public class IncomingWebRequestContextWrapper : IWebOperationContextIncomingReqest

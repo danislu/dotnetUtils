@@ -1,4 +1,4 @@
-﻿namespace Utils.Classes
+﻿namespace Utils
 {
     using System;
     using System.Collections;
