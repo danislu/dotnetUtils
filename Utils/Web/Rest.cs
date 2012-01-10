@@ -36,17 +36,7 @@
             return DeleteAsync(uri).Result;
         }
 
-        public Task<string> GetStringAsync(Uri uri)
-        {
-            return GetStringAsync(uri, new CancellationToken(), null);
-        }
-
-        public Task<string> GetStringAsync(Uri uri, CancellationToken token)
-        {
-            return GetStringAsync(uri, token, null);
-        }
-
-        public Task<string> GetStringAsync(Uri uri, CancellationToken token, IProgress<double> progress)
+        public Task<string> GetStringAsync(Uri uri, CancellationToken token = new CancellationToken(), IProgress<double> progress = null)
         {
             var task = GetAsync(uri, token, progress);
             return task.ContinueWith(t =>
@@ -59,64 +49,24 @@
                                          });
         }
 
-        public Task<Stream> GetAsync(Uri uri)
+        public Task<Stream> GetAsync(Uri uri, CancellationToken token = new CancellationToken(), IProgress<double> progress = null)
         {
-            return GetAsync(uri, new CancellationToken(), null);
+            return DoRequest(uri, HttpMethods.Get, token, progress);
         }
 
-        public Task<Stream> GetAsync(Uri uri, CancellationToken token)
+        public Task<Stream> PostAsync(Uri uri, Stream body, CancellationToken token = new CancellationToken(), IProgress<double> progress = null)
         {
-            return GetAsync(uri, token, null);
+            return DoRequest(uri, HttpMethods.Post, body, token, progress);
         }
 
-        public Task<Stream> GetAsync(Uri uri, CancellationToken token, IProgress<double> progress)
+        public Task<Stream> PutAsync(Uri uri, Stream body, CancellationToken token = new CancellationToken(), IProgress<double> progress = null)
         {
-            return Request(uri, HttpMethods.Get, token, progress);
+            return DoRequest(uri, HttpMethods.Put, body, token, progress);
         }
 
-        public Task<Stream> PostAsync(Uri uri, Stream body)
+        public Task<Stream> DeleteAsync(Uri uri, CancellationToken token = new CancellationToken(), IProgress<double> progress = null)
         {
-            return PostAsync(uri, body, new CancellationToken(), null);
-        }
-
-        public Task<Stream> PostAsync(Uri uri, Stream body, CancellationToken token)
-        {
-            return PostAsync(uri, body, token, null);
-        }
-
-        public Task<Stream> PostAsync(Uri uri, Stream body, CancellationToken token, IProgress<double> progress)
-        {
-            return Request(uri, HttpMethods.Post, body, token, progress);
-        }
-
-        public Task<Stream> PutAsync(Uri uri, Stream body)
-        {
-            return PutAsync(uri, body, new CancellationToken(), null);
-        }
-
-        public Task<Stream> PutAsync(Uri uri, Stream body, CancellationToken token)
-        {
-            return PutAsync(uri, body, token, null);
-        }
-
-        public Task<Stream> PutAsync(Uri uri, Stream body, CancellationToken token, IProgress<double> progress)
-        {
-            return Request(uri, HttpMethods.Put, body, token, progress);
-        }
-
-        public Task<Stream> DeleteAsync(Uri uri)
-        {
-            return DeleteAsync(uri, new CancellationToken(), null);
-        }
-
-        public Task<Stream> DeleteAsync(Uri uri, CancellationToken token)
-        {
-            return DeleteAsync(uri, token, null);
-        }
-
-        public Task<Stream> DeleteAsync(Uri uri, CancellationToken token, IProgress<double> progress)
-        {
-            return Request(uri, HttpMethods.Delete, token, progress);
+            return DoRequest(uri, HttpMethods.Delete, token, progress);
         }
 
         protected virtual WebRequest GetWebRequest(Uri uri, string method)
@@ -131,12 +81,12 @@
             return request;
         }
 
-        private Task<Stream> Request(Uri uri, string method, CancellationToken token, IProgress<double> progress)
+        private Task<Stream> DoRequest(Uri uri, string method, CancellationToken token, IProgress<double> progress)
         {
-            return Request(uri, method, null, token, progress);
+            return DoRequest(uri, method, null, token, progress);
         }
 
-        private Task<Stream> Request(Uri uri, string method, Stream body, CancellationToken token, IProgress<double> progress)
+        private Task<Stream> DoRequest(Uri uri, string method, Stream body, CancellationToken token, IProgress<double> progress)
         {
             if (uri == null)
             {

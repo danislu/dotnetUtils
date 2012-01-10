@@ -5,22 +5,25 @@
 
     public class LambdaEqualityComparer<T> : EqualityComparer<T>
     {
-        private readonly Func<T, T, bool> equalsFunc;
-        private readonly Func<T, int> getHashCodeFunc;
+        private readonly Func<T, T, bool> equalsFunc = (x, y) => x.Equals(y);
+        private readonly Func<T, int> getHashCodeFunc = x => x.GetHashCode();
 
-        public LambdaEqualityComparer(Func<T, T, bool> equalsFunc, Func<T, int> getHashCodeFunc)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LambdaEqualityComparer&lt;T&gt;"/> class.
+        /// </summary>
+        /// <param name="equalsFunc">The equals func. Default value is the default for <see cref="T"/></param>
+        /// <param name="getHashCodeFunc">The get hash code func. Default value is the default for <see cref="T"/></param>
+        public LambdaEqualityComparer(Func<T, T, bool> equalsFunc = null, Func<T, int> getHashCodeFunc = null)
         {
-            if (equalsFunc == null)
+            if (equalsFunc != null)
             {
-                throw new ArgumentNullException("equalsFunc");
+                this.equalsFunc = equalsFunc;
             }
-            this.equalsFunc = equalsFunc;
 
-            if (getHashCodeFunc == null)
+            if (getHashCodeFunc != null)
             {
-                throw new ArgumentNullException("getHashCodeFunc");
+                this.getHashCodeFunc = getHashCodeFunc;
             }
-            this.getHashCodeFunc = getHashCodeFunc;
         }
 
         public override bool Equals(T x, T y)
