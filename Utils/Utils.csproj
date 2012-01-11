@@ -42,11 +42,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\StreamExtenstions.cs" />
+    <Compile Include="Extensions\TaskExtensions.cs" />
+    <Compile Include="Extensions\StreamExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="LambdaEqualityComparer.cs" />
     <Compile Include="Tap\IProgress.cs" />
-    <Compile Include="Extensions\WebRequestExtenstions.cs" />
+    <Compile Include="Extensions\WebRequestExtensions.cs" />
     <Compile Include="Web\HttpMethods.cs" />
     <Compile Include="Web\MimeTypes.cs" />
     <Compile Include="ReadOnlyDictionary.cs" />
