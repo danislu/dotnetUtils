@@ -25,7 +25,6 @@
         [Test]
         public void DeleteAsyncTest()
         {
-            
             Task<Stream> expected = null; // TODO: Initialize to an appropriate value
             Task<Stream> actual;
             actual = target.DeleteAsync(uri);
@@ -77,7 +76,7 @@
         }
     }
 
-    internal class TRest : Rest
+    internal class TRest : HttpClient
     {
         protected override WebRequest GetWebRequest(Uri uri, string method)
         {

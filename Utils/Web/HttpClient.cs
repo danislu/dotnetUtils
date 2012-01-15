@@ -7,7 +7,7 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    public class Rest
+    public class HttpClient
     {
         public IDictionary<HttpRequestHeader, string> RequestHeaders { get; set; }
 
@@ -51,42 +51,35 @@
 
         public Task<Stream> GetAsync(Uri uri, CancellationToken token = new CancellationToken(), IProgress<double> progress = null)
         {
-            return DoRequest(uri, HttpMethods.Get, token, progress);
+            return DoRequestAsync(uri, HttpMethods.Get, token, progress);
         }
 
         public Task<Stream> PostAsync(Uri uri, Stream body, CancellationToken token = new CancellationToken(), IProgress<double> progress = null)
         {
-            return DoRequest(uri, HttpMethods.Post, body, token, progress);
+            return DoRequestAsync(uri, HttpMethods.Post, body, token, progress);
         }
 
         public Task<Stream> PutAsync(Uri uri, Stream body, CancellationToken token = new CancellationToken(), IProgress<double> progress = null)
         {
-            return DoRequest(uri, HttpMethods.Put, body, token, progress);
+            return DoRequestAsync(uri, HttpMethods.Put, body, token, progress);
         }
 
         public Task<Stream> DeleteAsync(Uri uri, CancellationToken token = new CancellationToken(), IProgress<double> progress = null)
         {
-            return DoRequest(uri, HttpMethods.Delete, token, progress);
+            return DoRequestAsync(uri, HttpMethods.Delete, token, progress);
         }
 
-        protected virtual WebRequest GetWebRequest(Uri uri, string method)
+        protected virtual WebRequest GetWebRequest(Uri uri)
         {
-            var request = WebRequest.Create(uri);
-            request.Method = method;
-            if (RequestHeaders != null)
-            {
-                request.AddHeaders(RequestHeaders);
-            }
-
-            return request;
+            return WebRequest.Create(uri);
         }
 
-        private Task<Stream> DoRequest(Uri uri, string method, CancellationToken token, IProgress<double> progress)
+        private Task<Stream> DoRequestAsync(Uri uri, string method, CancellationToken token, IProgress<double> progress)
         {
-            return DoRequest(uri, method, null, token, progress);
+            return DoRequestAsync(uri, method, null, token, progress);
         }
 
-        private Task<Stream> DoRequest(Uri uri, string method, Stream body, CancellationToken token, IProgress<double> progress)
+        private Task<Stream> DoRequestAsync(Uri uri, string method, Stream body, CancellationToken token, IProgress<double> progress)
         {
             if (uri == null)
             {
@@ -106,7 +99,13 @@
                 }
             };
 
-            var request = GetWebRequest(uri, method);
+            var request = GetWebRequest(uri);
+            request.Method = method;
+            if (RequestHeaders != null)
+            {
+                request.AddHeaders(RequestHeaders);
+            }
+
             var task = body != null
                         ? request.GetRequestStreamAsync()
                         .ContinueWith(t =>
