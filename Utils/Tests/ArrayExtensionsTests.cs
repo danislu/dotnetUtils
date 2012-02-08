@@ -2,10 +2,18 @@
 {
     using System;
     using NUnit.Framework;
-    
+
     [TestFixture]
     public class ArrayExtensionsTests
     {
+        [Test]
+        public void SubArray()
+        {
+            var a1 = new[] { 1, 2, 3, 4 };
+            var a2 = a1.SubArray(1, 2);
+            CollectionAssert.AreEqual(new[] { 2, 3 }, a2);
+        }
+
         [Test]
         public void AppendTo()
         {
@@ -31,10 +39,10 @@
         {
             var a1 = new[] { 1, 2 };
             var a2 = new[] { 3, 4 };
-            
+
             var actual = a1.Concat(a2);
-            
-            CollectionAssert.AreEquivalent(new[] {1,2,3,4}, actual);
+
+            CollectionAssert.AreEquivalent(new[] { 1, 2, 3, 4 }, actual);
         }
     }
 }

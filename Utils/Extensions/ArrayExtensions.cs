@@ -15,6 +15,23 @@
             return resultArray;
         }
 
+        public static T[] SubArray<T>(this T[] array, int index, int count)
+        {
+            if (array.Length < index + count)
+            {
+                throw new ArgumentException("array");
+            }
+
+            int j = 0;
+            var res = new T[count];
+            for (int i = index; i < index + count; i++)
+            {
+                res[j] = array[i];
+                j += 1;
+            }
+            return res;
+        }
+
         public static void AppendTo<T>(this T[] a1, ref T[] a2)
         {
             var oldLength = a2.Length;

@@ -78,12 +78,10 @@
 
     internal class TRest : HttpClient
     {
-        protected override WebRequest GetWebRequest(Uri uri, string method)
+        protected override WebRequest GetWebRequest(Uri uri)
         {
             this.TestUri = uri;
-            this.TestMethod = method;
-
-            return new MWebRequest();
+            return new MWebRequest((method) => this.TestMethod = method);
         }
 
         public Uri TestUri { get; private set; }
@@ -92,6 +90,14 @@
 
         private class MWebRequest : WebRequest
         {
+            private readonly Action<string> methodSet;
+            private string method;
+
+            public MWebRequest(Action<string> methodSet)
+            {
+                this.methodSet = methodSet;
+            }
+
             private class MWebResponse : WebResponse
             {
                 public override Stream GetResponseStream()
@@ -103,6 +109,7 @@
             private class MAsyncResult : IAsyncResult
             {
                 private object obj;
+                private AutoResetEvent autoResetEvent;
 
                 public bool IsCompleted
                 {
@@ -111,7 +118,7 @@
 
                 public WaitHandle AsyncWaitHandle
                 {
-                    get { throw new NotImplementedException(); }
+                    get { return autoResetEvent ?? (autoResetEvent = new AutoResetEvent(false)); }
                 }
 
                 public object AsyncState
@@ -122,6 +129,16 @@
                 public bool CompletedSynchronously
                 {
                     get { return true; }
+                }
+            }
+
+            public override string Method
+            {
+                get { return method; }
+                set
+                {
+                    method = value;
+                    this.methodSet(method);
                 }
             }
 
