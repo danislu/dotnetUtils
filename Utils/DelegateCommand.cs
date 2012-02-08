@@ -19,6 +19,15 @@
         {
         }
 
+        public void InvokeCanExecuteChanged()
+        {
+            EventHandler handler = CanExecuteChanged;
+            if (handler != null)
+            {
+                handler(this, new EventArgs());
+            }
+        }
+
         #region Implementation of ICommand
 
         public void Execute(object parameter)
@@ -31,7 +40,7 @@
 
         public bool CanExecute(object parameter)
         {
-            return (this.canExecute != null) && (parameter is T) && this.canExecute(parameter as T);
+            return (this.canExecute == null) || ((parameter is T) && this.canExecute(parameter as T));
         }
 
         public event EventHandler CanExecuteChanged;
