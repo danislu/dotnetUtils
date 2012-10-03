@@ -4,7 +4,6 @@
     using System.Windows.Input;
 
     public class DelegateCommand<T> : ICommand 
-        where T : class 
     {
         private readonly Action<T> execute;
         private readonly Func<T, bool> canExecute;
@@ -34,13 +33,13 @@
         {
             if (parameter is T)
             {
-                this.execute(parameter as T);
+                this.execute((T)parameter);
             }
         }
 
         public bool CanExecute(object parameter)
         {
-            return (this.canExecute == null) || ((parameter is T) && this.canExecute(parameter as T));
+            return (this.canExecute == null) || ((parameter is T) && this.canExecute((T)parameter));
         }
 
         public event EventHandler CanExecuteChanged;
